@@ -1,0 +1,14 @@
+# 2026-08-27 当前基准机关键文件。厂家 JSON 配置会动态生成，因此不写入本清单。
+052df5633b2440c637f33be5defe3c5d05cb5700dac9e13d9647782b8995937e  /boot/Image
+e021bdd317ebf7f04e0c935e99d40591ca89a572d4fe7664a518f990db47fe31  /home/nvidia/camera-migration/source-r36/home/nvidia/camera_new/camera_demo_geac/demo/camera_config_only
+7dda18a1b696189b7a0ec372736a0c614ab9fa90c027f7a4ad5b48b4d58bdf64  /home/nvidia/camera-migration/source-r36/home/nvidia/camera_new/camera_demo_geac/lib/sensorlib/libisx031std.so.1.2.0
+ef26536e220feb44032b8a3a334f06d102e084d336cedc6e51e876fe8571febb  /home/nvidia/camera-migration/source-r36/home/nvidia/camera_new/camera_demo_geac/lib/sensorlib/libmax9296.so.1.2.0
+623e3ed541774de7ad94c3a916175993e3cc6a41e906f086f3a97fd426c1c2f3  /home/nvidia/camera-migration/source-r36/home/nvidia/camera_new/camera_demo_geac/lib/sensorlib/libyuv_cam.so.1.2.0
+56a6a33ae18c54266428d6dcfc1fccfe3b79448f025ef840edfbc82598c783c4  /usr/lib/libgeaccam.so.1.2.0
+a776c353faac55c24f76dfb8d00b5fc5c689eac116fae56dc651a2b954bd3c23  /home/nvidia/.local/bin/camera_config_generator.py
+b3dd2ad4b420744294c1c588951c3b27affdd5e0fee4994dbccb022ce6f9a3e9  /home/nvidia/.local/bin/tztek-jetson-tool-internal-trigger-camera
+3478f5ce81f50c301da6aac1d5e0cc62f78359b61f75959b25d40f4a1d22e18d  /usr/local/bin/configure-camera/reset_power.sh
+ff856f6eb5fc867f380aa23456e1671ec79ffa4681ce3214e6bbd84caf194eb7  /home/nvidia/start_8cam_uni2.sh
+4c8489760522bd282e23c74c43a15dcd85f34b504c9aebc59fb3f81753c16833  /home/nvidia/camera_stream_rtsp.sh
+717bebf96f23a7ce2505bbc86649c0d7f46d0fe8194ab9d65d8efa6951e3d74c  /etc/systemd/system/roc-camera-direct.service
+5bdaf5ba8bcb8e2a502f5cf96ee8baf39d11cfc257f12ebac304f4b0307c7c92  /opt/roc/mediamtx

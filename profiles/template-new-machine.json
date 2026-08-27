@@ -1,0 +1,45 @@
+{
+  "_instructions": "复制此文件并根据新域控原理图、设备树和单路插拔结果修改。不要直接沿用示例 bus、地址和 video 映射。",
+  "profile_name": "新域控名称 / BSP版本 / 相机方案",
+  "expected_camera_count": 2,
+  "expected_video": {"width": 1920, "height": 1080, "pixel_format": "YUYV", "rtsp_fps": 15},
+  "startup_systemd_unit": "camera-start.service",
+  "startup_timeout_s": 360,
+  "post_start_wait_s": 5,
+  "vendor_config": "/opt/gmsl-camera/vendor/cfg/camera.json",
+  "serializer_id_register": "0x000d",
+  "deserializer_status_register": "0x0013",
+  "locked_status_values": ["0xda", "0xea", "0xfa"],
+  "unlocked_status_values": ["0x12", "0x22"],
+  "serializer_id_names": {"0xc8": "MAX96717F 特征", "0x91": "MAX9295A 特征"},
+  "i2c_samples": 3,
+  "kernel_window_minutes": 5,
+  "capture": {
+    "snapshot_dir": "/dev/shm/pic",
+    "snapshot_freshness_s": 10,
+    "rtsp_url_template": "rtsp://127.0.0.1:8554/cam{channel}",
+    "capture_timeout_s": 15,
+    "fallback_width": 1920,
+    "fallback_height": 1080
+  },
+  "deserializers": [
+    {"name": "pair0", "bus": 30, "address": "0x48", "physical_ports": ["P0", "P1"]}
+  ],
+  "ports": [
+    {"name": "P0", "logical_index": 0, "vi_channel": 0, "pair": "pair0", "link": "A", "bus": 30, "serializer_address": "0x41", "video_node": "/dev/video0", "snapshot_channel": 0, "expected": true, "declared_brand": "ENTRON", "expected_serializer_ids": ["0x91"]},
+    {"name": "P1", "logical_index": 1, "vi_channel": 1, "pair": "pair0", "link": "B", "bus": 30, "serializer_address": "0x42", "video_node": "/dev/video1", "snapshot_channel": 1, "expected": true, "declared_brand": "ENTRON", "expected_serializer_ids": ["0x91"]}
+  ],
+  "required_commands": ["python3", "v4l2-ctl", "media-ctl", "i2cdetect", "i2ctransfer", "ffmpeg", "journalctl", "systemctl", "fuser", "ldd", "gst-inspect-1.0"],
+  "required_gstreamer_plugins": ["v4l2src", "videoconvert", "jpegenc", "nvvidconv", "nvv4l2h264enc", "rtspclientsink"],
+  "required_packages": [
+    {"name": "nvidia-l4t-core", "version_prefix": "按新 BSP 填写"},
+    {"name": "nvidia-l4t-camera", "version_prefix": "按新 BSP 填写"},
+    {"name": "nvidia-l4t-gstreamer", "version_prefix": "按新 BSP 填写"},
+    {"name": "v4l-utils"},
+    {"name": "i2c-tools"},
+    {"name": "ffmpeg"}
+  ],
+  "runtime_paths": ["/boot/Image", "/sys/firmware/devicetree/base", "/opt/gmsl-camera/vendor"],
+  "ldd_targets": ["/opt/gmsl-camera/vendor/demo/camera_config_only"],
+  "sha256_manifest": ""
+}
