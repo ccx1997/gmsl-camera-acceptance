@@ -261,6 +261,8 @@ sudo systemctl restart nx-gmsl.target
 
 整套重启使用 target，不要只重跑初始化脚本而让采集仍占用设备。更换接线时先停 target，重新 probe，再 install；不能只改 camN 名字。
 
+厂家初始化会配置共享 CPLD 触发器，即使 JSON 只选择两路，也可能改变全部相机的触发频率；触发服务同时占用串口还会造成应答竞争。不要在其他路运行时自行执行“单组初始化”。使用上面的 `restart nx-gmsl.target` 会短暂中断六路，并按依赖顺序重新初始化、恢复 15 Hz 和启动推流。
+
 **服务重启通过不等于整机冷启动通过。** 在现场允许重启后，执行一次整机重启/断电重上电，再运行 `sudo ./run.sh` 和连续出帧检查，确认开机供电、驱动加载与触发时序。长时间运行与温度/线束振动测试仍需单独验收。
 
 ## 10. 运行目录与回滚
@@ -311,6 +313,7 @@ sudo python3 nx/deploy.py rollback --backup /var/backups/gmsl-nx/这里替换为
 | `not-negotiated (-4)` | 映射与 V4L2 枚举尺寸；是否选了空的 video4/video6 | 本次后两路实际是 video5/video7 |
 | 前四路短帧/`corr_err` | CSI lane 数、每 lane 速率、真实尺寸 | 2-lane/1500 多路出现短帧，2400 消除 |
 | 只有单 B 组超时/绿图 | VC0/VC1 与奇数 video 节点对应关系 | 库默认单 B 输出 VC0，NX odd 节点期望 VC1 |
+| 开机后 cam2/cam3 同时纯绿，链路和 ID 正常 | bus31 / CSI1 的采集超时与实际帧率；不能只看服务 active | 已复现约 1.6 fps；组内重上电和重新初始化后恢复。具体开机时序根因待确认，见修复记录 |
 | 有图但没有 RTSP | rtspclientsink、MediaMTX、8554 监听、发布进程 | 本次补齐 RTSP 插件并加入服务 |
 | 安装提示设备忙 | fuser 的 PID 所属服务、是否仍在停止中 | 工具等待释放，超时拒绝写配置 |
 | 软件源 TLS/代理错误 | 先判断只缺 RTSP 还是其他依赖 | 只缺 RTSP 可用本仓库两个离线包 |
