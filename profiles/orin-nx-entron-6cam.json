@@ -1,0 +1,293 @@
+{
+  "profile_name": "Orin NX / ENTRON 0xc8 / 6 cameras / R35.4.1",
+  "description": "P labels are software topology indices, not confirmed chassis markings.",
+  "expected_camera_count": 6,
+  "expected_video": {
+    "width": 1920,
+    "height": 1536,
+    "pixel_format": "YUYV",
+    "rtsp_fps": 15
+  },
+  "startup_systemd_unit": "nx-gmsl.target",
+  "startup_timeout_s": 360,
+  "post_start_wait_s": 3,
+  "vendor_config": "/opt/gmsl-nx/cfg/camera.json",
+  "serializer_id_register": "0x000d",
+  "deserializer_status_register": "0x0013",
+  "locked_status_values": [
+    "0xda",
+    "0xea",
+    "0xfa"
+  ],
+  "unlocked_status_values": [
+    "0x12",
+    "0x22"
+  ],
+  "serializer_id_names": {
+    "0xc8": "MAX96717F 特征",
+    "0x91": "MAX9295A 特征"
+  },
+  "i2c_samples": 3,
+  "i2c_sample_pause_s": 0.15,
+  "kernel_window_minutes": 5,
+  "capture_workers": 4,
+  "capture": {
+    "snapshot_dir": "/dev/shm/nx-gmsl",
+    "snapshot_freshness_s": 10,
+    "rtsp_url_template": "rtsp://127.0.0.1:8554/cam{channel}",
+    "capture_timeout_s": 15,
+    "fallback_width": 1920,
+    "fallback_height": 1536,
+    "require_rtsp": true,
+    "allow_direct_capture": false
+  },
+  "deserializers": [
+    {
+      "name": "pair0",
+      "bus": 30,
+      "address": "0x48",
+      "physical_ports": [
+        "P0",
+        "P1"
+      ]
+    },
+    {
+      "name": "pair1",
+      "bus": 31,
+      "address": "0x68",
+      "physical_ports": [
+        "P2",
+        "P3"
+      ]
+    },
+    {
+      "name": "pair2",
+      "bus": 32,
+      "address": "0x48",
+      "physical_ports": [
+        "P4",
+        "P5"
+      ]
+    },
+    {
+      "name": "pair3",
+      "bus": 33,
+      "address": "0x68",
+      "physical_ports": [
+        "P6",
+        "P7"
+      ]
+    }
+  ],
+  "ports": [
+    {
+      "name": "P0",
+      "logical_index": 0,
+      "vi_channel": 0,
+      "pair": "pair0",
+      "link": "A",
+      "bus": 30,
+      "serializer_address": "0x41",
+      "video_node": "/dev/video0",
+      "snapshot_channel": 0,
+      "expected": true,
+      "declared_brand": "殷创；本包对应实测 0xc8 批次",
+      "expected_serializer_ids": [
+        "0xc8"
+      ]
+    },
+    {
+      "name": "P1",
+      "logical_index": 1,
+      "vi_channel": 1,
+      "pair": "pair0",
+      "link": "B",
+      "bus": 30,
+      "serializer_address": "0x42",
+      "video_node": "/dev/video1",
+      "snapshot_channel": 1,
+      "expected": true,
+      "declared_brand": "殷创；本包对应实测 0xc8 批次",
+      "expected_serializer_ids": [
+        "0xc8"
+      ]
+    },
+    {
+      "name": "P2",
+      "logical_index": 2,
+      "vi_channel": 2,
+      "pair": "pair1",
+      "link": "A",
+      "bus": 31,
+      "serializer_address": "0x41",
+      "video_node": "/dev/video2",
+      "snapshot_channel": 2,
+      "expected": true,
+      "declared_brand": "殷创；本包对应实测 0xc8 批次",
+      "expected_serializer_ids": [
+        "0xc8"
+      ]
+    },
+    {
+      "name": "P3",
+      "logical_index": 3,
+      "vi_channel": 3,
+      "pair": "pair1",
+      "link": "B",
+      "bus": 31,
+      "serializer_address": "0x42",
+      "video_node": "/dev/video3",
+      "snapshot_channel": 3,
+      "expected": true,
+      "declared_brand": "殷创；本包对应实测 0xc8 批次",
+      "expected_serializer_ids": [
+        "0xc8"
+      ]
+    },
+    {
+      "name": "P4",
+      "logical_index": 4,
+      "vi_channel": 4,
+      "pair": "pair2",
+      "link": "A",
+      "bus": 32,
+      "serializer_address": "0x41",
+      "video_node": "/dev/video4",
+      "snapshot_channel": 12,
+      "expected": false,
+      "declared_brand": "空口",
+      "expected_serializer_ids": []
+    },
+    {
+      "name": "P5",
+      "logical_index": 5,
+      "vi_channel": 5,
+      "pair": "pair2",
+      "link": "B",
+      "bus": 32,
+      "serializer_address": "0x42",
+      "video_node": "/dev/video5",
+      "snapshot_channel": 4,
+      "expected": true,
+      "declared_brand": "殷创；本包对应实测 0xc8 批次",
+      "expected_serializer_ids": [
+        "0xc8"
+      ]
+    },
+    {
+      "name": "P6",
+      "logical_index": 6,
+      "vi_channel": 6,
+      "pair": "pair3",
+      "link": "A",
+      "bus": 33,
+      "serializer_address": "0x41",
+      "video_node": "/dev/video6",
+      "snapshot_channel": 14,
+      "expected": false,
+      "declared_brand": "空口",
+      "expected_serializer_ids": []
+    },
+    {
+      "name": "P7",
+      "logical_index": 7,
+      "vi_channel": 7,
+      "pair": "pair3",
+      "link": "B",
+      "bus": 33,
+      "serializer_address": "0x42",
+      "video_node": "/dev/video7",
+      "snapshot_channel": 5,
+      "expected": true,
+      "declared_brand": "殷创；本包对应实测 0xc8 批次",
+      "expected_serializer_ids": [
+        "0xc8"
+      ]
+    }
+  ],
+  "required_commands": [
+    "python3",
+    "v4l2-ctl",
+    "media-ctl",
+    "i2cdetect",
+    "i2ctransfer",
+    "ffmpeg",
+    "journalctl",
+    "systemctl",
+    "fuser",
+    "ldd",
+    "gst-inspect-1.0"
+  ],
+  "required_gstreamer_plugins": [
+    "v4l2src",
+    "videoflip",
+    "videoconvert",
+    "jpegenc",
+    "nvvidconv",
+    "nvv4l2h264enc",
+    "rtspclientsink"
+  ],
+  "required_packages": [
+    {
+      "name": "nvidia-l4t-core",
+      "version_prefix": "35.4.1"
+    },
+    {
+      "name": "nvidia-l4t-kernel",
+      "version_prefix": "5.10.120-tegra-35.4.1"
+    },
+    {
+      "name": "nvidia-l4t-camera",
+      "version_prefix": "35.4.1"
+    },
+    {
+      "name": "nvidia-l4t-gstreamer",
+      "version_prefix": "35.4.1"
+    },
+    {
+      "name": "nvidia-l4t-multimedia",
+      "version_prefix": "35.4.1"
+    },
+    {
+      "name": "v4l-utils"
+    },
+    {
+      "name": "i2c-tools"
+    },
+    {
+      "name": "ffmpeg"
+    }
+  ],
+  "runtime_paths": [
+    "/opt/gmsl-nx/demo/camera_config_only",
+    "/opt/gmsl-nx/lib/libgeaccam.so.1.2.0",
+    "/opt/gmsl-nx/lib/sensorlib/libisx031std.so.1.2.0",
+    "/opt/gmsl-nx/lib/sensorlib/libmax9296.so.1.2.0",
+    "/opt/gmsl-nx/lib/sensorlib/libyuv_cam.so.1.2.0",
+    "/opt/gmsl-nx/bin/mediamtx",
+    "/opt/gmsl-nx/bin/tztek-jetson-tool-internal-trigger-camera",
+    "/opt/gmsl-nx/initialize.py",
+    "/opt/gmsl-nx/nx_config.py",
+    "/opt/gmsl-nx/stream.py",
+    "/opt/gmsl-nx/check_streams.py",
+    "/opt/gmsl-nx/mediamtx.yml",
+    "/opt/gmsl-nx/cfg/board.json",
+    "/opt/gmsl-nx/cfg/camera.json",
+    "/opt/gmsl-nx/cfg/mapping.json",
+    "/etc/systemd/system/nx-gmsl.target",
+    "/etc/systemd/system/nx-gmsl-init.service",
+    "/etc/systemd/system/nx-gmsl-trigger.service",
+    "/etc/systemd/system/nx-gmsl-mediamtx.service",
+    "/etc/systemd/system/nx-gmsl-stream@.service"
+  ],
+  "ldd_targets": [
+    "/opt/gmsl-nx/demo/camera_config_only",
+    "/opt/gmsl-nx/lib/libgeaccam.so.1.2.0",
+    "/opt/gmsl-nx/lib/sensorlib/libisx031std.so.1.2.0",
+    "/opt/gmsl-nx/lib/sensorlib/libmax9296.so.1.2.0",
+    "/opt/gmsl-nx/lib/sensorlib/libyuv_cam.so.1.2.0",
+    "/opt/gmsl-nx/bin/tztek-jetson-tool-internal-trigger-camera"
+  ],
+  "sha256_manifest": "/opt/gmsl-nx/cfg/runtime.sha256",
+  "runtime_library_path": "/opt/gmsl-nx/lib:/opt/gmsl-nx/lib/sensorlib"
+}

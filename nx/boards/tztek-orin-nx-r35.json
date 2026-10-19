@@ -1,0 +1,22 @@
+{
+  "name": "TZTEK Orin NX, eight GMSL inputs, R35.4.1, 2-lane CSI",
+  "architecture": "aarch64",
+  "l4t": "35.4.1",
+  "kernel": "5.10.120-tegra",
+  "sensor_name": "isx031std",
+  "serializer_id": 200,
+  "deserializer_id": 148,
+  "extra_mode": 2,
+  "lane_mode": 32,
+  "lane_speed": 2400,
+  "width": 1920,
+  "height": 1536,
+  "fps": 15,
+  "trigger_device": "/dev/ttyTHS1",
+  "pairs": [
+    {"bus": 30, "address": 72, "csi_port": 0, "device": "/dev/max9296_a", "power": "/sys/class/tz_gpio/camera_0_1-power/value"},
+    {"bus": 31, "address": 104, "csi_port": 1, "device": "/dev/max9296_b", "power": "/sys/class/tz_gpio/camera_2_3-power/value"},
+    {"bus": 32, "address": 72, "csi_port": 2, "device": "/dev/max9296_c", "power": "/sys/class/tz_gpio/camera_4_5-power/value"},
+    {"bus": 33, "address": 104, "csi_port": 3, "device": "/dev/max9296_d", "power": "/sys/class/tz_gpio/camera_6_7-power/value"}
+  ]
+}

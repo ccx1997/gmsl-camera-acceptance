@@ -3,7 +3,17 @@
 set -uo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-PROFILE=${CAMERA_ACCEPTANCE_PROFILE:-$SCRIPT_DIR/profiles/geacx1-r35-current-6cam.json}
+PROFILE=${CAMERA_ACCEPTANCE_PROFILE:-}
+if [ -z "$PROFILE" ]; then
+  if [ -f /etc/gmsl-camera-acceptance/profile ]; then
+    IFS= read -r PROFILE < /etc/gmsl-camera-acceptance/profile
+  elif [[ "$(tr -d '\0' < /proc/device-tree/model 2>/dev/null)" == *"AGX Orin"* ]]; then
+    PROFILE=$SCRIPT_DIR/profiles/geacx1-r35-current-6cam.json
+  else
+    echo "本机尚未选择验收配置。NX 请先按 docs/ORIN_NX_ENTRON.md 部署；其他机型请设置 CAMERA_ACCEPTANCE_PROFILE。" >&2
+    exit 2
+  fi
+fi
 
 if [ "${EUID:-$(id -u)}" -ne 0 ]; then
   echo "需要 root 才能完整读取 I2C、设备节点和内核日志，正在通过 sudo 重新运行..."

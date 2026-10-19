@@ -294,7 +294,7 @@ def capture_port(
     channel = int(port.get("snapshot_channel", port.get("logical_index", 0)))
     freshness = float(capture_cfg.get("snapshot_freshness_s", 10))
     snapshot_dir = Path(capture_cfg.get("snapshot_dir", "/dev/shm/pic"))
-    snapshot = latest_snapshot(snapshot_dir, channel)
+    snapshot = None if capture_cfg.get("require_rtsp") else latest_snapshot(snapshot_dir, channel)
     if snapshot:
         age = time.time() - snapshot.stat().st_mtime
         if age <= freshness:
@@ -343,6 +343,11 @@ def capture_port(
     else:
         rtsp_error = "RTSP not configured or ffmpeg missing"
 
+    if capture_cfg.get("require_rtsp") or not capture_cfg.get("allow_direct_capture", True):
+        return {
+            "ok": False, "source": "rtsp", "source_path": "", "age_s": None,
+            "image": "", "detail": f"RTSP 未取得画面；本配置禁止直接打开 V4L2 试抓: {rtsp_error}",
+        }
     if video.get("busy"):
         return {
             "ok": False,
@@ -470,7 +475,10 @@ def inspect_runtime(profile: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], List
     for value in profile.get("ldd_targets", []):
         path = Path(value)
         if path.is_file() and shutil.which("ldd"):
-            result = run_command(["ldd", str(path)], timeout=8)
+            env = os.environ.copy()
+            if profile.get("runtime_library_path"):
+                env["LD_LIBRARY_PATH"] = profile["runtime_library_path"]
+            result = run_command(["ldd", str(path)], timeout=8, env=env)
             missing = [line.strip() for line in result["output"].splitlines() if "not found" in line]
             libraries.append({"path": str(path), "output": result["output"], "missing": missing})
         else:
